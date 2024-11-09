@@ -1,0 +1,206 @@
+PRACTICAL NO. 01 (B)
+Name: Bhagyashree Shashikant Katale
+
+#!/bin/bash
+createAddressBook()
+{
+if [ -e addressbook.txt ]
+then
+echo "Address book is already created"
+else
+touch addressbook.txt
+echo "Wel-come address book "
+fi
+}
+insertRecord()
+{
+while true
+do
+echo "To add a record in address book please insert record in this format "
+echo "format: \"Last name,first name,email,phone number\"(no quotes or spaces)."
+echo "to quit press 'q'."
+read aInput
+echo "$aInput" >> addressbook.txt
+echo "Record Inserted"
+if [ "$aInput" == 'q' ]
+then
+break
+fi
+done
+}
+viewRecord()
+{
+while true
+do
+echo "To display a record, enter the last name of person (case sensitive)"
+read dInput
+if [ "$dInput" == 'q' ]
+then
+break
+fi
+echo "Display record $dInput:"
+grep "$dInput" addressbook.txt
+RETURNSTATUS=`echo $?`
+if [ $RETURNSTATUS -eq 1 ]
+then
+echo "NO record found"
+fi
+done
+}
+searchRecord()
+{
+while true
+do
+echo "To search a record, enter the last name of person (case sensitive)"
+read dInput
+if [ "$dInput" == 'q' ]
+then
+break
+fi
+echo "Display record $dInput:"
+grep "$dInput" addressbook.txt
+RETURNSTATUS=`echo $?`
+if [ $RETURNSTATUS -eq 1 ]
+then
+echo "NO record found"
+fi
+done
+}
+deleteRecord()
+{
+while true
+do
+echo "To Delete a record, enter the last name of person or email (case sensitive)"
+echo "if finished then , press 'q' to quit"
+read rInput
+if [ "$rInput" == 'q' ]
+then
+break
+fi
+echo "Display record $dInput:"
+grep -n "$rInput" addressbook.txt
+RETURNSTATUS=`echo $?`
+if [ $RETURNSTATUS -eq 1 ]
+then
+echo "NO record found"
+else
+echo "Enter line no to remove"
+read lineNumber
+for line in `grep -n "$rInput" addressbook.txt`
+do
+number=`echo $line|cut -c1`
+echo $number
+if [ $number -eq $lineNumber ]
+then
+lineRemove="${lineNumber}d"
+sed -i -eq "lineRemove" addressbook.txt
+echo "The record was remove from the address book."
+fi
+done
+fi
+done
+}
+#program menu with all choices related to addresss book
+while true
+do
+echo "address book?"
+echo "Enter your choice"
+echo "1-->Create address book"
+echo "2-->Insert Record"
+echo "3-->View Record"
+echo "4-->Search Record"
+echo "5-->Delete Record”
+read input
+case $input in
+1) createAddressBook;;
+2) insertRecord;;
+3) viewRecord;;
+4) searchRecord;;
+5) deleteRecord;;
+esac
+done
+OUTPUT:
+sl1-14@sl114-Veriton-M200-H81:~/Desktop$ chmod +x book.sh
+sl1-14@sl114-Veriton-M200-H81:~/Desktop$ ./book.sh
+address book?
+Enter your choice
+1-->Create address book
+2-->Insert Record
+3-->View Record
+4-->Search Record
+5-->Delete Record
+1
+Address book is already created
+address book?
+Enter your choice
+1-->Create address book
+2-->Insert Record
+3-->View Record
+4-->Search Record
+5-->Delete Record
+2
+To add a record in address book please insert record in this format
+format: "Last name,first name,email,phone number"(no quotes or spaces).
+to quit press 'q'.
+Gudulkar,Gayatri,gudulkargayatri@gmail.com
+Record Inserted
+To add a record in address book please insert record in this format
+format: "Last name,first name,email,phone number"(no quotes or spaces).
+to quit press 'q'.
+Katale,Bhagyashree,katalebhagyashree55@gmail.com
+Record Inserted
+To add a record in address book please insert record in this format
+format: "Last name,first name,email,phone number"(no quotes or spaces).
+to quit press 'q'.
+q
+Record Inserted
+address book?
+Enter your choice
+1-->Create address book
+2-->Insert Record
+3-->View Record
+4-->Search Record
+5-->Delete Record
+3
+To display a record, enter the last name of person (case sensitive)
+k
+Display record k:
+Gudulkar Gayatri,Gudulkargayatri@gmail.com
+Katale Bhagyashree,katalebhagyashree55@gmail.com
+To display a record, enter the last name of person (case sensitive)
+q
+address book?
+Enter your choice
+1-->Create address book
+2-->Insert Record
+3-->View Record
+4-->Search Record
+5-->Delete Record
+4
+To search a record, enter the last name of person (case sensitive)
+k
+Display record k:
+Gudulkar Gayatri,Gudulkargayatri@gmail.com
+Katale Bhagyashree,katalebhagyashree55@gmail.com
+To search a record, enter the last name of person (case sensitive)
+q
+address book?
+Enter your choice
+1-->Create address book
+2-->Insert Record
+3-->View Record
+4-->Search Record
+5-->Delete Record
+5
+To Delete a record, enter the last name of person or email (case sensitive)
+if finished then , press 'q' to quit
+g
+Display record g:
+1:Gudulkar Gayatri,Gudulkargayatri@gmail.com
+2:Katale Bhagyashree,katalebhagyashree55@gmail.com
+Enter line no to remove
+2
+The record was remove from the address book.
+To Delete a record, enter the last name of person or email (case sensitive)
+if finished then , press 'q' to quit
+q
